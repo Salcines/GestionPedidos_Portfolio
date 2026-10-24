@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GestionPedidos.Api/GestionPedidos.Api.csproj" />
+    <Project Path="src/GestionPedidos.Application/GestionPedidos.Application.csproj" />
+    <Project Path="src/GestionPedidos.Domain/GestionPedidos.Domain.csproj" />
+    <Project Path="src/GestionPedidos.Infrastructure/GestionPedidos.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GestionPedidos.UnitTests/GestionPedidos.UnitTests.csproj" />
+  </Folder>
+</Solution>
