@@ -59,6 +59,14 @@ object Build : BuildType({
             configuration = "Release"
             args = "-maxcpucount:1"
         }
+        script {
+            name = "temporal"
+            id = "temporal"
+            scriptContent = """
+                git tag --list
+                git describe --tags --abbrev=0 || echo "no tags"
+            """.trimIndent()
+        }
     }
 
     triggers {
