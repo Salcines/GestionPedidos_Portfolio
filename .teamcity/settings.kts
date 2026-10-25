@@ -79,7 +79,7 @@ object Build : BuildType({
                    LAST_TAG=${'$'}(git describe --tags --abbrev=0 --match "[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || true)
                    if [ -z "${'$'}LAST_TAG" ]; then
                       RELEASE=true
-                   elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.Domain|Application|Api|Infrastructure)/(Directory\.Build\.props)'; then
+                   elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.(Domain|Application|Api|Infrastructure)/Directory\.Build\.props)'; then
                          RELEASE=true
                    fi
                 fi
