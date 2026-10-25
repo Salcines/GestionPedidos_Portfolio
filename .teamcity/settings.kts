@@ -68,7 +68,7 @@ object Build : BuildType({
                 # Release only in default branch and with logic or version change sice last tag
                 RELEASE=false
                 if [ "%teamcity.build.branch.is_default%" = "true" ]; then
-                   LAST_TAG=${'$'}(git describe --tags --abbrev=0 --match "[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || true)
+                   LAST_TAG=${'$'}(git describe --tags --abbrev=0 --match "v[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || true)
                    if [ -z "${'$'}LAST_TAG" ]; then
                       RELEASE=true
                    elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.(Domain|Application|Api|Infrastructure)/Directory\.Build\.props)'; then
@@ -77,7 +77,7 @@ object Build : BuildType({
                 fi
                 
                 # Hotfix: Last tag of MAJOR.MINOR.x + 1: Otherelse: 1
-                LAST_HOTFIX=${'$'}(git tag --list "${'$'}{MAJOR}.${'$'}{MINOR}.*" | sort -V | tail -n1)
+                LAST_HOTFIX=${'$'}(git tag --list "v${'$'}{MAJOR}.${'$'}{MINOR}.*" | sort -V | tail -n1)
                 
                 if [ "${'$'}RELEASE" = true ]; then
                    HOTFIX=1
