@@ -39,7 +39,7 @@ project {
 
 object Build : BuildType({
     name = "Build"
-    description = "-maxcpucount:1 avoid two MSBuild nodes simultaneous builds targeting the same project and deps.json "
+    description = "-maxcpucount:1 avoid two MSBuild nodes simultaneous builds targeting the same project and deps.json"
 
     params {
         param("release.flag", "false")
@@ -63,8 +63,15 @@ object Build : BuildType({
             name = "temporal"
             id = "temporal"
             scriptContent = """
+                cd %teamcity.build.checkoutDir%
+                echo "-- local tags --"
                 git tag --list
-                git describe --tags --abbrev=0 || echo "no tags"
+                echo "-- remoto tags --"
+                git ls-remote --tags origin || echo "fail ls-remote"
+                echo "--- fecth tags --"
+                git fetch --tags origin || echo "fail fetch"
+                echo "-- tags after fetch --"
+                git tag --list
             """.trimIndent()
         }
     }
