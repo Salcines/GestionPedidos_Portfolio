@@ -39,6 +39,7 @@ project {
 
 object Build : BuildType({
     name = "Build"
+    description = "-maxcpucount:1 avoid two MSBuild nodes simultaneous builds targeting the same project and deps.json "
 
     params {
         param("release.flag", "false")
