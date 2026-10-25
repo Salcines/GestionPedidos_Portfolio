@@ -51,29 +51,6 @@ object Build : BuildType({
     }
 
     steps {
-        dotnetBuild {
-            name = "Build"
-            id = "Build"
-            projects = "GestionPedidos.slnx"
-            framework = "net10.0"
-            configuration = "Release"
-            args = "-maxcpucount:1"
-        }
-        script {
-            name = "temporal"
-            id = "temporal"
-            scriptContent = """
-                cd %teamcity.build.checkoutDir%
-                echo "-- local tags --"
-                git tag --list
-                echo "-- remoto tags --"
-                git ls-remote --tags origin || echo "fail ls-remote"
-                echo "--- fecth tags --"
-                git fetch --tags origin || echo "fail fetch"
-                echo "-- tags after fetch --"
-                git tag --list
-            """.trimIndent()
-        }
         script {
             name = "Versioning"
             id = "Versioning"
@@ -114,6 +91,29 @@ object Build : BuildType({
                 fi
                 echo "##teamcity[setParameter name='app.version' value=''${'$'}{VERSION}']"
                 echo "##teamcity[setParameter name='release.flag' value='${'$'}{RELEASE}']"
+            """.trimIndent()
+        }
+        dotnetBuild {
+            name = "Build"
+            id = "Build"
+            projects = "GestionPedidos.slnx"
+            framework = "net10.0"
+            configuration = "Release"
+            args = "-maxcpucount:1"
+        }
+        script {
+            name = "temporal"
+            id = "temporal"
+            scriptContent = """
+                cd %teamcity.build.checkoutDir%
+                echo "-- local tags --"
+                git tag --list
+                echo "-- remoto tags --"
+                git ls-remote --tags origin || echo "fail ls-remote"
+                echo "--- fecth tags --"
+                git fetch --tags origin || echo "fail fetch"
+                echo "-- tags after fetch --"
+                git tag --list
             """.trimIndent()
         }
     }
