@@ -84,7 +84,7 @@ object Build : BuildType({
                    fi
                 fi
                 
-                if [ "${'$'}RELEASE"=true ]; then
+                if [ "${'$'}RELEASE" = true ]; then
                    echo "##teamcity[buildNumber '${'$'}{VERSION}']"
                 else
                    echo "##teamcity[buildNumber '${'$'}{VERSION}-dev.%build.counter%']"
