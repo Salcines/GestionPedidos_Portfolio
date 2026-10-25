@@ -44,6 +44,7 @@ object Build : BuildType({
     params {
         param("release.flag", "false")
         param("app.version", "0.0.0")
+        password("github.token", "credentialsJSON:99a1d237-9afd-44fa-89d7-eef239f15a97")
     }
 
     vcs {
