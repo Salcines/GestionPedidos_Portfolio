@@ -74,6 +74,48 @@ object Build : BuildType({
                 git tag --list
             """.trimIndent()
         }
+        script {
+            name = "Versioning"
+            id = "Versioning"
+            scriptContent = """
+                #!/bin/bash
+                set -eu
+                cd system%system.teamcity.build.checkoutDir%
+                
+                # Brings default tags
+                git fetch --tags origin
+                
+                MAJOR=${'$'}(sed -n 's:.*<VersionMajor>\([0-9]*\)</VersionMajor>.*:\1:p' Directory.Build.props)
+                MINOR=${'$'}(sed -n 's:.*<VersionMinor>\([0-9]*\)</VersionMinor>.*\1:p' Directory.Build.props)
+                
+                # Hotfix: Last tag of MAJOR.MINOR.x + 1: Otherelse: 1
+                LAST_HOTFIX=${'$'}(git tag --list "${'$'}{MAJOR}.${'$'}{MINOR}.*" | sort -V | tail -n1)
+                HOTFIX=1
+                if 
+                    [ -n "${'$'}LAST_HOTFIX" ]; then
+                       HOTFIX=${'$'}(( ${'$'}{LAST_HOTFIX##*.} + 1));
+                fi
+                VERSION="${'$'}{MAJOR}.${'$'}{MINOR}.${'$'}{HOTFIX}"
+                # Release only in default branch and with logic or version change sice last tag
+                RELEASE=false
+                if [ "%teamcity.build.branch.is_default%" = "true" ]; then
+                   LAST_TAG=${'$'}(git describe --tags --abbrev=0 --match "[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || true)
+                   if [ -z "${'$'}LAST_TAG" ]; then
+                      RELEASE=true
+                   elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.(Domain|Application|Api|Infrastructure)/(Directory\.Build\.props)'; then
+                         RELEASE=true
+                   fi
+                fi
+                
+                if [ "${'$'}RELEASE"=true ]; then
+                   echo "##teamcity[buildNumber '${'$'}{VERSION}']"
+                else
+                   echo "##teamcity[buildNumber '${'$'}{VERSION}-dev.%build.counter%']"
+                fi
+                echo "##teamcity[setParameter name='app.version' value=''${'$'}{VERSION}']"
+                echo "##teamcity[setParameter name='release.flag' value='${'$'}{RELEASE}']"
+            """.trimIndent()
+        }
     }
 
     triggers {
