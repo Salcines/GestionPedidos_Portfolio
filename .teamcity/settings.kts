@@ -63,7 +63,7 @@ object Build : BuildType({
                 git fetch --tags origin
                 
                 MAJOR=${'$'}(sed -n 's:.*<VersionMajor>\([0-9]*\)</VersionMajor>.*:\1:p' Directory.Build.props)
-                MINOR=${'$'}(sed -n 's:.*<VersionMinor>\([0-9]*\)</VersionMinor>.*\1:p' Directory.Build.props)
+                MINOR=${'$'}(sed -n 's:.*<VersionMinor>\([0-9]*\)</VersionMinor>.*:\1:p' Directory.Build.props)
                 
                 # Hotfix: Last tag of MAJOR.MINOR.x + 1: Otherelse: 1
                 LAST_HOTFIX=${'$'}(git tag --list "${'$'}{MAJOR}.${'$'}{MINOR}.*" | sort -V | tail -n1)
