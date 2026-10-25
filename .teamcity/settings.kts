@@ -124,6 +124,33 @@ object Build : BuildType({
                 git tag --list
             """.trimIndent()
         }
+        script {
+            name = "Tag"
+            id = "Tag"
+            executionMode = BuildStep.ExecutionMode.RUN_ON_SUCCESS
+
+            conditions {
+                equals("release.flag", "true")
+            }
+            scriptContent = """
+                #!bin/bash
+                set -eu
+                TAG=%app.version%
+                REPO=%vcsroot.url%
+                
+                HTTP_CODE=${'$'}(curl -s -o /tmp/tag_response.json -w "%http_code" -X POST \
+                   -H "Authorization: Bearer %github.token%" |
+                   -H "Accept: application/vnd.github+json" \
+                   "https://api.github.com/repos/"${'$'}REPO"/git/refs" \
+                   -d "{\"ref\":\"refs/tags/v${'$'}{TAG}\",\"sha\":\"%build.vcs.number%\"}")
+                if [ "${'$'}HTTP_CODE" != "201" ]; then
+                   echo "error creating the tag ${'$'}{TAG}: HTTP ${'$'}{HTTP_CODE}"
+                   cat /tmp/tag_response.json
+                   exit 1
+                fi
+                echo "Tag ${'$'}{TAG} created"
+            """.trimIndent()
+        }
     }
 
     triggers {
