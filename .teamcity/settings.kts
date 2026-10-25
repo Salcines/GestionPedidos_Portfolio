@@ -89,7 +89,7 @@ object Build : BuildType({
                 else
                    echo "##teamcity[buildNumber '${'$'}{VERSION}-dev.%build.counter%']"
                 fi
-                echo "##teamcity[setParameter name='app.version' value=''${'$'}{VERSION}']"
+                echo "##teamcity[setParameter name='app.version' value='${'$'}{VERSION}']"
                 echo "##teamcity[setParameter name='release.flag' value='${'$'}{RELEASE}']"
             """.trimIndent()
         }
