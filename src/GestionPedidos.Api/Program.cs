@@ -20,4 +20,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//Run app
 app.Run();
