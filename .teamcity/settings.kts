@@ -57,7 +57,7 @@ object Build : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -eu
-                cd system%system.teamcity.build.checkoutDir%
+                cd %system.teamcity.build.checkoutDir%
                 
                 # Brings default tags
                 git fetch --tags origin
