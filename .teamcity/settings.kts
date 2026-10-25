@@ -65,14 +65,6 @@ object Build : BuildType({
                 MAJOR=${'$'}(sed -n 's:.*<VersionMajor>\([0-9]*\)</VersionMajor>.*:\1:p' Directory.Build.props)
                 MINOR=${'$'}(sed -n 's:.*<VersionMinor>\([0-9]*\)</VersionMinor>.*:\1:p' Directory.Build.props)
                 
-                # Hotfix: Last tag of MAJOR.MINOR.x + 1: Otherelse: 1
-                LAST_HOTFIX=${'$'}(git tag --list "${'$'}{MAJOR}.${'$'}{MINOR}.*" | sort -V | tail -n1)
-                HOTFIX=1
-                if 
-                    [ -n "${'$'}LAST_HOTFIX" ]; then
-                       HOTFIX=${'$'}(( ${'$'}{LAST_HOTFIX##*.} + 1));
-                fi
-                VERSION="${'$'}{MAJOR}.${'$'}{MINOR}.${'$'}{HOTFIX}"
                 # Release only in default branch and with logic or version change sice last tag
                 RELEASE=false
                 if [ "%teamcity.build.branch.is_default%" = "true" ]; then
@@ -84,9 +76,23 @@ object Build : BuildType({
                    fi
                 fi
                 
+                # Hotfix: Last tag of MAJOR.MINOR.x + 1: Otherelse: 1
+                LAST_HOTFIX=${'$'}(git tag --list "${'$'}{MAJOR}.${'$'}{MINOR}.*" | sort -V | tail -n1)
+                
                 if [ "${'$'}RELEASE" = true ]; then
+                   HOTFIX=1
+                   if [ -n "${'$'}LAST_HOTFIX" ]; then
+                      HOTFIX=${'$'}(( ${'$'}{LAST_HOTFIX##*.} + 1 ));
+                   fi
+                   VERSION="${'$'}{MAJOR}.${'$'}{MINOR}.${'$'}{HOTFIX}"
                    echo "##teamcity[buildNumber '${'$'}{VERSION}']"
                 else
+                   # Dev: last publish release. 1 if none.
+                   BASE_HOTFIX=1
+                   if [ -n "${'$'}LAST_HOTFIX" ]; then
+                       BASE_HOTFIX="${'$'}{LAST_HOTFIX##*.}";
+                   fi
+                   VERSION="${'$'}{MAJOR}.${'$'}{MINOR}.${'$'}{BASE_HOTFIX}"
                    echo "##teamcity[buildNumber '${'$'}{VERSION}-dev.%build.counter%']"
                 fi
                 echo "##teamcity[setParameter name='app.version' value='${'$'}{VERSION}']"
