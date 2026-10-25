@@ -104,6 +104,7 @@ object Build : BuildType({
         script {
             name = "temporal"
             id = "temporal"
+            enabled = false
             scriptContent = """
                 cd %teamcity.build.checkoutDir%
                 echo "-- local tags --"
