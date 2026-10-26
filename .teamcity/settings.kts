@@ -141,8 +141,8 @@ object Build : BuildType({
             scriptContent = """
                 #!bin/bash
                 set -eu
-                TAG=%app.version%
-                REPO=%vcsroot.url%
+                TAG="%app.version%"
+                REPO="%vcsroot.url%"
                 
                 HTTP_CODE=${'$'}(curl -s -o /tmp/tag_response.json -w "%http_code" -X POST \
                    -H "Authorization: Bearer %github.token%" |
