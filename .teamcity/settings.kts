@@ -101,6 +101,11 @@ object Build : BuildType({
                 echo "##teamcity[setParameter name='release.flag' value='${'$'}{RELEASE}']"
             """.trimIndent()
         }
+        dotnetRestore {
+            name = "resto"
+            id = "restore"
+            projects = "GestionPedidos.slnx"
+        }
         dotnetBuild {
             name = "Build"
             id = "Build"
@@ -151,11 +156,6 @@ object Build : BuildType({
                 fi
                 echo "Tag ${'$'}{TAG} created"
             """.trimIndent()
-        }
-        dotnetRestore {
-            name = "resto"
-            id = "restore"
-            projects = "GestionPedidos.slnx"
         }
     }
 
