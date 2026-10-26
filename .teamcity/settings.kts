@@ -109,6 +109,11 @@ object Build : BuildType({
             configuration = "Release"
             args = "-maxcpucount:1"
         }
+        dotnetRestore {
+            name = "Restore"
+            id = "Restore"
+            projects = "GestionPedidos.slnx"
+        }
         script {
             name = "temporal"
             id = "temporal"
@@ -151,11 +156,6 @@ object Build : BuildType({
                 fi
                 echo "Tag ${'$'}{TAG} created"
             """.trimIndent()
-        }
-        dotnetRestore {
-            name = "Restore"
-            id = "Restore"
-            projects = "GestionPedidos.slnx"
         }
     }
 
