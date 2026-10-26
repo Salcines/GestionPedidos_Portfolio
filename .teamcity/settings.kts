@@ -102,7 +102,7 @@ object Build : BuildType({
             """.trimIndent()
         }
         dotnetRestore {
-            name = "resto"
+            name = "restore"
             id = "restore"
             projects = "GestionPedidos.slnx"
         }
