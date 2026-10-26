@@ -125,11 +125,13 @@ object Build : BuildType({
                 RELEASE=false
                 if [ "%teamcity.build.branch.is_default%" = "true" ]; then
                    LAST_TAG=${'$'}(git describe --tags --abbrev=0 --match "v[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || true)
-                   echo ${'$'}LAST_TAG
+                   echo "Last tag: "${'$'}LAST_TAG
                    if [ -z "${'$'}LAST_TAG" ]; then
                       RELEASE=true
-                   elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.(Domain|Application|Api|Infrastructure)/Directory\.Build\.props)'; then
+                      echo "Last_tag empty"
+                   elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.(Domain|Application|Api|Infrastructure)/Directory\.Build\.props${'$'})'; then
                          RELEASE=true
+                         echo "diff inside if-else"
                    fi
                 fi
                 echo ${'$'}RELEASE
