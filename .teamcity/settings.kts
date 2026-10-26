@@ -119,15 +119,21 @@ object Build : BuildType({
             id = "temporal"
             enabled = false
             scriptContent = """
+                #!/bin/bash
+                
+                set -eu
                 cd %teamcity.build.checkoutDir%
-                echo "-- local tags --"
-                git tag --list
-                echo "-- remoto tags --"
-                git ls-remote --tags origin || echo "fail ls-remote"
-                echo "--- fecth tags --"
-                git fetch --tags origin || echo "fail fetch"
-                echo "-- tags after fetch --"
-                git tag --list
+                RELEASE=false
+                if [ "%teamcity.build.branch.is_default%" = "true" ]; then
+                   LAST_TAG=${'$'}(git describe --tags --abbrev=0 --match "v[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || true)
+                   echo ${'$'}LAST_TAG
+                   if [ -z "${'$'}LAST_TAG" ]; then
+                      RELEASE=true
+                   elif git diff --name-only "${'$'}LAST_TAG" HEAD | grep -qE '^(src/GestionPedidos\.(Domain|Application|Api|Infrastructure)/Directory\.Build\.props)'; then
+                         RELEASE=true
+                   fi
+                fi
+                echo ${'$'}RELEASE
             """.trimIndent()
         }
         script {
