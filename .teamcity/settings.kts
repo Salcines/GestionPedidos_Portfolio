@@ -141,6 +141,7 @@ object Build : BuildType({
             scriptContent = """
                 #!bin/bash
                 set -eu
+                echo "%vcsroot.url%"
                 TAG="%app.version%"
                 REPO="%vcsroot.url%"
                 
