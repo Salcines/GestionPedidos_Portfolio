@@ -145,10 +145,10 @@ object Build : BuildType({
                 TAG="%app.version%"
                 REPO="Salcines/GestionPedidos_Portfolio"
                 
-                HTTP_CODE=${'$'}(curl -s -o /tmp/tag_response.json -w "%http_code" -X POST \
-                   -H "Authorization: Bearer %github.token%" |
+                HTTP_CODE=${'$'}(curl -s -o /tmp/tag_response.json -w "%{http_code}" -X POST \
+                   -H "Authorization: Bearer %github.token%" \
                    -H "Accept: application/vnd.github+json" \
-                   "https://api.github.com/repos/"${'$'}REPO"/git/refs" \
+                   "https://api.github.com/repos/${'$'}REPO/git/refs" \
                    -d "{\"ref\":\"refs/tags/v${'$'}{TAG}\",\"sha\":\"%build.vcs.number%\"}")
                 if [ "${'$'}HTTP_CODE" != "201" ]; then
                    echo "error creating the tag ${'$'}{TAG}: HTTP ${'$'}{HTTP_CODE}"
