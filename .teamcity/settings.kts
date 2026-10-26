@@ -3,7 +3,6 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
-import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetRestore
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 
@@ -100,11 +99,6 @@ object Build : BuildType({
                 echo "##teamcity[setParameter name='app.version' value='${'$'}{VERSION}']"
                 echo "##teamcity[setParameter name='release.flag' value='${'$'}{RELEASE}']"
             """.trimIndent()
-        }
-        dotnetRestore {
-            name = "restore"
-            id = "restore"
-            projects = "GestionPedidos.slnx"
         }
         dotnetBuild {
             name = "Build"
