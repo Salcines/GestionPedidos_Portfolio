@@ -139,7 +139,7 @@ object Build : BuildType({
                 equals("release.flag", "true")
             }
             scriptContent = """
-                #!bin/bash
+                #!/bin/bash
                 set -eu
                 
                 TAG="%app.version%"
