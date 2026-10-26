@@ -141,9 +141,9 @@ object Build : BuildType({
             scriptContent = """
                 #!bin/bash
                 set -eu
-                echo "%vcsroot.url%"
+                
                 TAG="%app.version%"
-                REPO="%vcsroot.url%"
+                REPO="Salcines/GestionPedidos_Portfolio"
                 
                 HTTP_CODE=${'$'}(curl -s -o /tmp/tag_response.json -w "%http_code" -X POST \
                    -H "Authorization: Bearer %github.token%" |
