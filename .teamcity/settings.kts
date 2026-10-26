@@ -117,7 +117,6 @@ object Build : BuildType({
         script {
             name = "temporal"
             id = "temporal"
-            enabled = false
             scriptContent = """
                 #!/bin/bash
                 
