@@ -3,6 +3,7 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
+import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetRestore
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 
@@ -150,6 +151,11 @@ object Build : BuildType({
                 fi
                 echo "Tag ${'$'}{TAG} created"
             """.trimIndent()
+        }
+        dotnetRestore {
+            name = "Restore"
+            id = "Restore"
+            projects = "GestionPedidos.slnx"
         }
     }
 
