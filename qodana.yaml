@@ -1,8 +1,8 @@
-version: 1.0
-linter: qodana-dotnet
+version: "1.0"
+linter: qodana-cdnet
+dotnet:
+  solution: GestionPedidos.slnx
 exclude:
   - name: All
     paths:
-      - name: bin
-      - name: obj
       - tests/GestionPedidos.UnitTests
