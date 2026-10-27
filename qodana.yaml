@@ -1,5 +1,6 @@
 version: "1.0"
 linter: qodana-cdnet
+bootstrap: dotnet restore GestionPedidos.slnx
 dotnet:
   solution: GestionPedidos.slnx
 exclude:
