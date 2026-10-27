@@ -1,0 +1,9 @@
+version: "1.0"
+linter: qodana-cdnet
+bootstrap: DOTNET_NOLOGO=1 DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 dotnet restore GestionPedidos.slnx --verbosity quiet
+dotnet:
+  solution: GestionPedidos.slnx
+exclude:
+  - name: All
+    paths:
+      - tests/GestionPedidos.UnitTests
