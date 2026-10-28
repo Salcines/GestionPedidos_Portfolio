@@ -34,4 +34,6 @@ public sealed class Order
             throw new DomainException("El pedido debe tener al menos un producto");
         Status = OrderStatus.Confirmed;
     }
+
+    public decimal Total => _items.Sum(item => item.Total);
 }

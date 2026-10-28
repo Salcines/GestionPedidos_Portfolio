@@ -20,4 +20,6 @@ public sealed class OrderItems
     public int Quantity { get; }
     public decimal UnitPrice { get; }
     
+    public decimal Total => Quantity * UnitPrice;
+    
 }
