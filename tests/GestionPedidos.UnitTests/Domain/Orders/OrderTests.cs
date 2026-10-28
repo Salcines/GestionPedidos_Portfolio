@@ -158,4 +158,19 @@ public class OrderTests
         //Assert
         Assert.Throws<DomainException>(act);
     }
+
+    [Fact]
+    public void AddItem_WithTwoItems_ReturnsSumOfItems()
+    {
+        //Arrange
+        var order = Order.Create(Guid.NewGuid());
+        order.AddItem(Guid.NewGuid(), 2, 10.5m);
+        order.AddItem(Guid.NewGuid(), 7, 45.90m);
+        
+        //Act
+        var total = order.Total;
+
+        //Assert
+        Assert.Equal(342.3m, total);
+    }
 }
