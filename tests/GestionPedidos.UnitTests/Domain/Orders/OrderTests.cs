@@ -163,14 +163,20 @@ public class OrderTests
     public void AddItem_WithTwoItems_ReturnsSumOfItems()
     {
         //Arrange
+        const int firstQuantity = 2;
+        const decimal firstUnitPrice = 10.5m;
+        const int secondQuantity = 7;
+        const decimal secondUnitPrice = 45.90m;
+        const decimal expectedTotal = 342.3m;
+        
         var order = Order.Create(Guid.NewGuid());
-        order.AddItem(Guid.NewGuid(), 2, 10.5m);
-        order.AddItem(Guid.NewGuid(), 7, 45.90m);
+        order.AddItem(Guid.NewGuid(), firstQuantity, firstUnitPrice);
+        order.AddItem(Guid.NewGuid(), secondQuantity, secondUnitPrice);
         
         //Act
         var total = order.Total;
 
         //Assert
-        Assert.Equal(342.3m, total);
+        Assert.Equal(expectedTotal, total);
     }
 }
