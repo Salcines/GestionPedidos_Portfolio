@@ -21,8 +21,8 @@ public sealed class Order
     
     public void AddItem(Guid productId, int quantity, decimal unitPrice)
     {
-        if (Status == OrderStatus.Confirmed)
-            throw new DomainException("No se puede agregar un producto a un pedido confirmado");
+        if (Status != OrderStatus.Pending)
+            throw new DomainException("No se puede agregar un producto a un pedido que no esté pendiente");
         _items.Add(new OrderItems(productId, quantity, unitPrice));
     }
 
