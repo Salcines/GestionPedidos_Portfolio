@@ -37,6 +37,8 @@ public sealed class Order
 
     public void Ship()
     {
+        if (Status != OrderStatus.Confirmed)
+            throw new DomainException("No se puede enviar un pedido que no está confirmado");
         Status = OrderStatus.Shipped;
     }
 

@@ -197,4 +197,17 @@ public class OrderTests
         //Assert
         Assert.Equal(OrderStatus.Shipped, order.Status);
     }
+
+    [Fact]
+    public void Ship_WithOrderPending_ThrowsDomainException()
+    {
+        //Arrange
+        var order = Order.Create(Guid.NewGuid());
+        
+        //Act
+        var act = () => order.Ship();
+        
+        //Assert
+        Assert.Throws<DomainException>(act);
+    }
 }
