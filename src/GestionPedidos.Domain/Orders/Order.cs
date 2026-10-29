@@ -35,5 +35,10 @@ public sealed class Order
         Status = OrderStatus.Confirmed;
     }
 
+    public void Ship()
+    {
+        Status = OrderStatus.Shipped;
+    }
+
     public decimal Total => _items.Sum(item => item.Total);
 }

@@ -179,4 +179,22 @@ public class OrderTests
         //Assert
         Assert.Equal(expectedTotal, total);
     }
+
+    [Fact]
+    public void Ship_WithOrderConfirmed_IsShipped()
+    {
+        //Arrange
+        const int quantity = 2;
+        const decimal unitPrice = 1.50m;
+
+        var order = Order.Create(Guid.NewGuid());
+        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
+        order.Confirm();
+        
+        //Act
+        order.Ship();
+        
+        //Assert
+        Assert.Equal(OrderStatus.Shipped, order.Status);
+    }
 }
