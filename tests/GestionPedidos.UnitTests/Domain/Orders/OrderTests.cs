@@ -230,4 +230,24 @@ public class OrderTests
         //Assert
         Assert.Throws<DomainException>(act);
     }
+
+    [Fact]
+    public void Shipped_WithOrderShipped_ThrowsDomainException()
+    {
+        //Arrange
+        const int quantity = 2;
+        const decimal unitPrice = 1.50m;
+        
+        var order = Order.Create(Guid.NewGuid());
+        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
+        
+        order.Confirm();
+        order.Ship();
+        
+        //Act
+        var act = () => order.Ship();
+        
+        //Assert
+        Assert.Throws<DomainException>(act);
+    }
 }
