@@ -258,4 +258,20 @@ public class OrderTests
 
         Assert.Equal(OrderStatus.Cancelled, order.Status);
     }
+
+    [Fact]
+    public void Cancel_WithOrderShipped_ThrowsDomainException()
+    {
+        const int quantity = 2;
+        const decimal unitPrice = 1.50m;
+
+        var order = Order.Create(Guid.NewGuid());
+        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
+        order.Confirm();
+        order.Ship();
+
+        var act = () => order.Cancel();
+
+        Assert.Throws<DomainException>(act);
+    }
 }
