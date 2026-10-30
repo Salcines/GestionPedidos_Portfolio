@@ -243,4 +243,19 @@ public class OrderTests
         //Assert
         Assert.Equal(OrderStatus.Cancelled, order.Status);
     }
+
+    [Fact]
+    public void Cancel_WithOrderConfirm_IsCancelled()
+    {
+        const int quantity = 2;
+        const decimal unitPrice = 1.50m;
+
+        var order = Order.Create(Guid.NewGuid());
+        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
+
+        order.Confirm();
+        order.Cancel();
+
+        Assert.Equal(OrderStatus.Cancelled, order.Status);
+    }
 }
