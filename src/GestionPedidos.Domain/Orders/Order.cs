@@ -42,5 +42,7 @@ public sealed class Order
         Status = OrderStatus.Shipped;
     }
 
+    public void Cancel() => Status = OrderStatus.Cancelled;
+
     public decimal Total => _items.Sum(item => item.Total);
 }
