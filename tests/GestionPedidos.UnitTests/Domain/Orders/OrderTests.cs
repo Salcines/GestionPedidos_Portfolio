@@ -230,4 +230,17 @@ public class OrderTests
         //Assert
         Assert.Throws<DomainException>(act);
     }
+
+    [Fact]
+    public void Cancel_WithOrderPending_IsCancelled()
+    {
+        //Arrange
+        var order = Order.Create(Guid.NewGuid());
+        
+        //Act
+        order.Cancel();
+        
+        //Assert
+        Assert.Equal(OrderStatus.Cancelled, order.Status);
+    }
 }
