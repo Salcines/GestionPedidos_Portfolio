@@ -282,7 +282,9 @@ public class OrderTests
         order.Cancel();
 
         var act = () => order.Cancel();
-
+    }
+    
+    [Fact]
     public void Shipped_WithOrderShipped_ThrowsDomainException()
     {
         //Arrange
