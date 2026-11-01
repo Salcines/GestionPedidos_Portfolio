@@ -28,8 +28,8 @@ public sealed class Order
 
     public void Confirm()
     {
-        if (Status == OrderStatus.Confirmed)
-            throw new DomainException("No se puede confirmar un pedido ya confirmado");
+        if (Status != OrderStatus.Pending)
+            throw new DomainException("Sólo se puede confirmar un pedido pendiente");
         if (_items.Count == 0)
             throw new DomainException("El pedido debe tener al menos un producto");
         Status = OrderStatus.Confirmed;
