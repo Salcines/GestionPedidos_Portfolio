@@ -42,5 +42,14 @@ public sealed class Order
         Status = OrderStatus.Shipped;
     }
 
+    public void Cancel()
+    {
+        if (Status == OrderStatus.Shipped)
+            throw new DomainException("No se puede cancelar un pedido ya enviado");
+        if (Status == OrderStatus.Cancelled)
+            throw new DomainException("No se puede cancelar un pedido ya cancelado");
+        Status = OrderStatus.Cancelled;
+    }
+
     public decimal Total => _items.Sum(item => item.Total);
 }
