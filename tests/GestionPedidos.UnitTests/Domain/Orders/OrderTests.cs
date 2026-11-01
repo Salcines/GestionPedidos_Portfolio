@@ -160,6 +160,25 @@ public class OrderTests
     }
 
     [Fact]
+    public void Confirm_WithOrderCancelled_ThrowsDomainException()
+    {
+        //Arrange
+        const int quantity = 2;
+        const decimal unitPrice = 10.5m;
+        
+        var order = Order.Create(Guid.NewGuid());
+        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
+        order.Confirm();
+        order.Cancel();
+        
+        //Act
+        var act = () => order.Confirm();
+        
+        //Assert
+        Assert.Throws<DomainException>(act);
+    }
+
+    [Fact]
     public void AddItem_WithTwoItems_ReturnsSumOfItems()
     {
         //Arrange
@@ -265,8 +284,9 @@ public class OrderTests
     }
 
     [Fact]
-    public void Cancel_WithOrderConfirm_IsCancelled()
+    public void Cancel_WithOrderConfirmed_IsCancelled()
     {
+        //Arrange
         const int quantity = 2;
         const decimal unitPrice = 1.50m;
 
@@ -274,14 +294,18 @@ public class OrderTests
         order.AddItem(Guid.NewGuid(), quantity, unitPrice);
 
         order.Confirm();
+        
+        //Act
         order.Cancel();
 
+        //Assert
         Assert.Equal(OrderStatus.Cancelled, order.Status);
     }
 
     [Fact]
     public void Cancel_WithOrderShipped_ThrowsDomainException()
     {
+        //Arrange
         const int quantity = 2;
         const decimal unitPrice = 1.50m;
 
@@ -290,13 +314,15 @@ public class OrderTests
         order.Confirm();
         order.Ship();
 
+        //Act
         var act = () => order.Cancel();
 
+        //Assert
         Assert.Throws<DomainException>(act);
     }
 
     [Fact]
-    public void Cancel_WithOrderCancel_ThrowsDomainException()
+    public void Cancel_WithOrderCancelled_ThrowsDomainException()
     {
         //Arrange
         var order = Order.Create(Guid.NewGuid());
@@ -304,6 +330,23 @@ public class OrderTests
 
         //Act
         var act = () => order.Cancel();
+        
+        //Assert
+        Assert.Throws<DomainException>(act);
+    }
+
+    [Fact]
+    public void AddItem_WithOrderCancelled_ThrowsDomainException()
+    {
+        //Arrange
+        const int quantity = 2;
+        const decimal unitPrice= 10.5m;
+        
+        var order = Order.Create(Guid.NewGuid());
+        order.Cancel();
+        
+        //Act
+        var act = () => order.AddItem(Guid.NewGuid(), quantity, unitPrice);
         
         //Assert
         Assert.Throws<DomainException>(act);
