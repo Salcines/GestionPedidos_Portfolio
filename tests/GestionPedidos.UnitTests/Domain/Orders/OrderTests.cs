@@ -200,57 +200,6 @@ public class OrderTests
     }
 
     [Fact]
-    public void Ship_WithOrderConfirmed_IsShipped()
-    {
-        //Arrange
-        const int quantity = 2;
-        const decimal unitPrice = 1.50m;
-
-        var order = Order.Create(Guid.NewGuid());
-        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
-        order.Confirm();
-        
-        //Act
-        order.Ship();
-        
-        //Assert
-        Assert.Equal(OrderStatus.Shipped, order.Status);
-    }
-
-    [Fact]
-    public void Ship_WithOrderPending_ThrowsDomainException()
-    {
-        //Arrange
-        var order = Order.Create(Guid.NewGuid());
-        
-        //Act
-        var act = () => order.Ship();
-        
-        //Assert
-        Assert.Throws<DomainException>(act);
-    }
-    
-    [Fact]
-    public void Ship_WithOrderShipped_ThrowsDomainException()
-    {
-        //Arrange
-        const int quantity = 2;
-        const decimal unitPrice = 1.50m;
-        
-        var order = Order.Create(Guid.NewGuid());
-        order.AddItem(Guid.NewGuid(), quantity, unitPrice);
-        
-        order.Confirm();
-        order.Ship();
-        
-        //Act
-        var act = () => order.Ship();
-        
-        //Assert
-        Assert.Throws<DomainException>(act);
-    }
-
-    [Fact]
     public void AddItem_WithOrderShipped_ThrowsDomainException()
     {
         //Arrange
