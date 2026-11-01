@@ -274,4 +274,15 @@ public class OrderTests
 
         Assert.Throws<DomainException>(act);
     }
+
+    [Fact]
+    public void Cancel_WithOrderCancel_ThrowsDomainException()
+    {
+        var order = Order.Create(Guid.NewGuid());
+        order.Cancel();
+
+        var act = () => order.Cancel();
+
+        Assert.Throws<DomainException>(act);
+    }
 }

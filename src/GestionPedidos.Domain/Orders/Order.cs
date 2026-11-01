@@ -46,6 +46,8 @@ public sealed class Order
     {
         if (Status == OrderStatus.Shipped)
             throw new DomainException("No se puede cancelar un pedido ya enviado");
+        if (Status == OrderStatus.Cancelled)
+            throw new DomainException("No se puede cancelar un pedido ya cancelado");
         Status = OrderStatus.Cancelled;
     }
 
