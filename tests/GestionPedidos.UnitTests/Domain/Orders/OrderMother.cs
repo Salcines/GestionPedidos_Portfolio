@@ -4,15 +4,15 @@ namespace GestionPedidos.UnitTests.Domain.Orders;
 
 internal static class OrderMother
 {
-    private const int DEFAULT_QUANTITY = 1;
-    private const decimal DEFAULT_UNIT_PRICE = 10.5m;
+    private const int DefaultQuantity = 1;
+    private const decimal DefaultUnitPrice = 10.5m;
     
     public static Order Pending() => Order.Create(Guid.NewGuid());
 
     public static Order PendingWithItems()
     {
         var order = Pending();
-        order.AddItem(Guid.NewGuid(), DEFAULT_QUANTITY, DEFAULT_UNIT_PRICE);
+        order.AddItem(Guid.NewGuid(), DefaultQuantity, DefaultUnitPrice);
         return order;
     }
 
