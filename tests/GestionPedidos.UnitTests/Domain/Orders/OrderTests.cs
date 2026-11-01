@@ -53,7 +53,7 @@ public class OrderTests
     }
 
     [Theory]
-    [InlineData(-0)]
+    [InlineData(0)]
     [InlineData(-2)]
     public void AddItem_WithQuantityZeroOrLess_ThrowsDomainException(int quantity)
     {
@@ -117,7 +117,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void Confirm_WithOutItems_ThrowsDomainException()
+    public void Confirm_WithoutItems_ThrowsDomainException()
     {
         //Arrange
         var order = Order.Create(Guid.NewGuid());
@@ -179,7 +179,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void AddItem_WithTwoItems_ReturnsSumOfItems()
+    public void Total_WithTwoItems_ReturnsSumOfItems()
     {
         //Arrange
         const int firstQuantity = 2;
@@ -231,7 +231,7 @@ public class OrderTests
     }
     
     [Fact]
-    public void Shipped_WithOrderShipped_ThrowsDomainException()
+    public void Ship_WithOrderShipped_ThrowsDomainException()
     {
         //Arrange
         const int quantity = 2;
