@@ -9,7 +9,7 @@ public class ProductCreateTests
     public void Create_WithValidData_SetsNameAndPrice()
     {
         //Arrange
-        const string name = "Teclado";
+        const string name = "Keyboard";
         const decimal price = 100.5m;
 
         //Act
@@ -31,6 +31,21 @@ public class ProductCreateTests
         
         //Act
         var act = () => Product.Create(name!, price);
+        
+        //Assert
+        Assert.Throws<DomainException>(act);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void Create_WithPriceZeroOrLess_ThrowsDomainException(decimal price)
+    {
+        //Arrange
+        const string name = "Keyboard";
+        
+        //Act
+        var act = () => Product.Create(name, price);
         
         //Assert
         Assert.Throws<DomainException>(act);

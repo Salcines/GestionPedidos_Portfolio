@@ -8,6 +8,12 @@ public sealed class Product
         {
             throw new DomainException("Se debe ingresar un nombre de producto");
         }
+        
+        if(price <= 0)
+        {
+            throw new DomainException("El precio debe ser mayor a cero");
+        }
+
         Name = name;
         Price = price;
     }
