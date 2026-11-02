@@ -27,6 +27,10 @@ public sealed class Product
 
     public void ChangePrice(decimal newPrice)
     {
+        if (newPrice <= 0)
+        {
+            throw new DomainException("El precio debe ser mayor a cero");
+        }
         Price = newPrice;
     }
 }
