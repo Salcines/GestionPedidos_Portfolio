@@ -20,8 +20,13 @@ public sealed class Product
 
     public string Name { get; }
 
-    public decimal Price { get; }
+    public decimal Price { get; private set; }
 
     public static Product Create(string name, decimal price) 
         => new(name, price);
+
+    public void ChangePrice(decimal newPrice)
+    {
+        Price = newPrice;
+    }
 }
