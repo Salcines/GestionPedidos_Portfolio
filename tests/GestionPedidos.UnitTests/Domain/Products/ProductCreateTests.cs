@@ -50,4 +50,33 @@ public class ProductCreateTests
         //Assert
         Assert.Throws<DomainException>(act);
     }
+
+    [Fact]
+    public void Create_WithValidData_AssignsProductId()
+    {
+        //Arrange
+        const string name = "Keyboard";
+        const decimal price = 100.5m;
+        
+        //Act
+        var product = Product.Create(name, price);
+        
+        //Assert
+        Assert.NotEqual(Guid.Empty, product.Id);
+    }
+
+    [Fact]
+    public void Create_WithValidData_AssignTimeOrdered()
+    {
+        //Arrange
+        const string name = "Keyboard";
+        const decimal price = 100.5m;
+        const short uuidVersion7 = 7;
+        
+        //Act
+        var product = Product.Create(name, price);
+        
+        //Assert
+        Assert.Equal(uuidVersion7, product.Id.Version);
+    }
 }

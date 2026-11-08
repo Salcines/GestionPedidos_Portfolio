@@ -9,6 +9,7 @@ public sealed class Product
         
         EnsurePositivePrice(price);
 
+        Id = Guid.CreateVersion7();
         Name = name;
         Price = price;
     }
@@ -22,6 +23,8 @@ public sealed class Product
     public string Name { get; }
 
     public decimal Price { get; private set; }
+    
+    public Guid Id { get; }
 
     public static Product Create(string name, decimal price) 
         => new(name, price);

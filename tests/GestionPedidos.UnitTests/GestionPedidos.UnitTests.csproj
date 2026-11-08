@@ -23,4 +23,8 @@
       <ProjectReference Include="..\..\src\GestionPedidos.Domain\GestionPedidos.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\Orders\" />
+    </ItemGroup>
+
 </Project>
