@@ -1,6 +1,6 @@
 namespace GestionPedidos.Domain.Orders;
 
-public sealed class Order
+public sealed class Order : Entity
 {
     private readonly List<OrderItems> _items = [];
     
@@ -9,15 +9,13 @@ public sealed class Order
         if (customerId == Guid.Empty)
             throw new DomainException("El cliente es obligatorio");
         CustomerId = customerId;
-        Id = Guid.CreateVersion7();
         Status = OrderStatus.Pending;
     }
 
     public Guid CustomerId { get; }
     
-    public Guid Id { get;}
-    
     public OrderStatus Status { get; private set; }
+    
     public IReadOnlyCollection<OrderItems> Items => _items.AsReadOnly();
     
     public static Order Create(Guid customerId) => new(customerId);

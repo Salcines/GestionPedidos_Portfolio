@@ -1,6 +1,6 @@
 namespace GestionPedidos.Domain.Products;
 
-public sealed class Product
+public sealed class Product : Entity
 {
     private Product(string name, decimal price)
     {
@@ -8,8 +8,7 @@ public sealed class Product
             throw new DomainException("Se debe ingresar un nombre de producto");
         
         EnsurePositivePrice(price);
-
-        Id = Guid.CreateVersion7();
+        
         Name = name;
         Price = price;
     }
@@ -23,8 +22,6 @@ public sealed class Product
     public string Name { get; }
 
     public decimal Price { get; private set; }
-    
-    public Guid Id { get; }
 
     public static Product Create(string name, decimal price) 
         => new(name, price);
