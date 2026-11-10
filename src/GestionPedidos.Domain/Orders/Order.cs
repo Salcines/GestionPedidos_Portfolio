@@ -1,6 +1,6 @@
 namespace GestionPedidos.Domain.Orders;
 
-public sealed class Order
+public sealed class Order : Entity
 {
     private readonly List<OrderItems> _items = [];
     
@@ -15,6 +15,7 @@ public sealed class Order
     public Guid CustomerId { get; }
     
     public OrderStatus Status { get; private set; }
+    
     public IReadOnlyCollection<OrderItems> Items => _items.AsReadOnly();
     
     public static Order Create(Guid customerId) => new(customerId);
